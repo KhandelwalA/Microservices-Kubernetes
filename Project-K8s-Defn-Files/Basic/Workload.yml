@@ -1,0 +1,50 @@
+# Deployment definition of utility service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: utility-deployment
+  labels:
+    name: utility-deployment
+    type: microservice
+spec:
+  template:
+    metadata:
+      name: utility
+      labels:
+        name: utility
+    spec:
+      containers:
+        - name: utility-container
+          image: khandelwala/utility:v1
+          ports:
+            - containerPort: 8080
+          env:
+            - name: spring.data.mongodb.uri
+              value: mongodb://mongo-utility-service.default.svc.cluster.local/asset
+  replicas: 2
+  selector:
+    matchLabels:
+      name: utility
+---
+# Deployment definition of mongodb for utility service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-utility-deployment
+  labels:
+    name: mongo-utility-deployment
+    type: database
+spec:
+  template:
+    metadata:
+      name: mongo-utility
+      labels:
+        name: mongo-utility
+    spec:
+      containers:
+        - name: mongo-container
+          image: mongo:3.6
+  replicas: 1
+  selector:
+    matchLabels:
+      name: mongo-utility

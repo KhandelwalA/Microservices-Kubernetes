@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: personal
+  cloud: 
+    kubernetes: 
+      config: 
+        namespace: default         # K8s namespace where to look for config map 
+        name: personal-config-map   # Name of the config map where to look for the properties

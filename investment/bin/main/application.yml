@@ -1,0 +1,14 @@
+# To enable actuator endpoint responsible for restarting the application
+management: 
+  endpoint: 
+    restart: 
+      enabled: true
+      
+# To enable the application to restart the application context & reload roperties from K8s config map when they are changed in K8s config map        
+spring: 
+  cloud: 
+    kubernetes: 
+      reload: 
+        enabled: true
+        strategy: RESTART_CONTEXT
+        

@@ -1,0 +1,79 @@
+Launch EC2 instance which will be used for running the commands (bootstrap)
+<<-----------Connect to EC2 machine which will be used for creating and managing the kubernetes cluster-------->>
+<<-----Follow the steps from below link and also follow the tutorial of chesterwood from Udemy-------->>
+https://github.com/kubernetes/kops
+https://kops.sigs.k8s.io/getting_started/aws/
+
+<<Execute below steps in EC2 bootstrap instance>>
+<<Install Kops>>
+execute:
+			curl -Lo kops https://github.com/kubernetes/kops/releases/download/$(curl -s 	https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+			
+			chmod +x ./kops
+			
+			sudo mv ./kops /usr/local/bin/
+<<Install kubectl>>			
+execute:
+			curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+			
+			chmod +x ./kubectl
+			
+			sudo mv ./kubectl /usr/local/bin/kubectl
+			
+			kubectl version --client
+=> Create an IAM user with full access to IAM, S3, EC2, Route53 & VPC
+=> execute: 
+	aws configure
+	export AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id)
+	export AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key)
+=> Create a bucket to store kops information
+=> execute:
+	export NAME=khandelwala.k8s.local
+	export KOPS_STATE_STORE=s3://khandelwala-state-storage
+	aws ec2 describe-availability-zones --region ap-south-1
+	kops create cluster --zones=ap-south-1a,ap-south-1b,ap-south-1c ${NAME}
+	ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa
+	kops create secret --name ${NAME} sshpublickey admin -i ~/.ssh/id_rsa.pub
+	kops edit ig nodes --name ${NAME}
+	kops get ig --name ${NAME}
+	
+<<Now onwards resources will be launched and cluster will be started>>
+=> execute:
+	kops update cluster ${NAME} --yes
+	kops validate cluster
+	
+<<To Delete a cluster: kops delete cluster --name ${NAME} --yes   >>
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+Steps to install and use helm
+<<https://helm.sh/docs/intro/quickstart/>>
+=>execute:
+wget https://get.helm.sh/helm-v3.2.1-linux-amd64.tar.gz
+tar zxvf <helm tar gz file name>
+sudo mv linux-amd64/helm /usr/local/bin
+rm <helm tar gz file>
+rm -rf ./linux-amd64/
+helm
+helm init <This will install the helm server side component 'tiller' in kube-system namespace>
+helm version
+helm get pod -n kube-system 
+helm repo update
+--------To give priveledges to execute helm commands in default namespace-----
+=>execute:
+kubectl create serviceaccount --namespace kube-system tiller
+
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+
+kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}' 
+
+---example command to install mysql and set its initial password----
+helm install stable/mysql --name mySqlNameWeWantToGive --set mysqlPassword=password
+=> Command to list all apps installed using helm
+helm ls
+=> command to delete a particular helm installed app
+helm delete --purge <<name given at the time of installation>>
+
+--------To install ingress nginx on AWS-------------
+Follow the instruction in official kubernetes guide for ingress at : https://kubernetes.github.io/ingress-nginx/deploy/
+Exexcute: Your ingress defn files like 1 for secure services and 1 for insecure services
