@@ -8,8 +8,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - name: http
-      port: 8080
+    - port: 8080
       nodePort: 30080
   selector:
     name: utility
@@ -27,3 +26,61 @@ spec:
     - port: 27017
   selector:
     name: mongo-utility
+---
+# Service for personal microservice
+apiVersion: v1
+kind: Service
+metadata:
+  name: personal-service
+  labels:
+    type: service
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      nodePort: 30081
+  selector:
+    name: personal
+---
+# Service for personal-monodb
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-personal-service
+  labels:
+    type: service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 27017
+  selector:
+    name: mongo-personal
+---
+# Service for investment microservice
+apiVersion: v1
+kind: Service
+metadata:
+  name: investment-service
+  labels:
+    type: service
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      nodePort: 30082
+  selector:
+    name: investment
+---
+# Service for utility-monodb
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-investment-service
+  labels:
+    type: service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 27017
+  selector:
+    name: mongo-investment

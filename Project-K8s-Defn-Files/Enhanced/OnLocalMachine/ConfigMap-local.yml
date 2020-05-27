@@ -1,3 +1,4 @@
+# utility config map
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -5,3 +6,21 @@ metadata:
   name: utility-configmap-v1
 data:
   spring.data.mongodb.uri: mongodb://mongo-utility-service.default.svc.cluster.local/asset
+---
+# personal config map
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: default
+  name: personal-configmap-v1
+data:
+  spring.data.mongodb.uri: mongodb://mongo-personal-service.default.svc.cluster.local/asset
+---
+# investment config map
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: default
+  name: investment-configmap-v1
+data:
+  spring.data.mongodb.uri: mongodb://mongo-investment-service.default.svc.cluster.local/asset

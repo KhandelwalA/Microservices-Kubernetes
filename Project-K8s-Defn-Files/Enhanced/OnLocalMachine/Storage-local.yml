@@ -1,27 +1,83 @@
-# What do we want from storage perspective
+# What do we want from storage perspective -- For utility mogo db
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mongo-pvc
+  name: mongo-utility-pvc
 spec:
-  storageClassName: mylocalstorage
+  storageClassName: mylocalstorage-utility
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: 1Gi
 ---
 # How do we want it to get implemented
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: local-storage 
+  name: local-storage-utility 
 spec:
-  storageClassName: mylocalstorage
+  storageClassName: mylocalstorage-utility
   capacity:
-    storage: 2Gi
+    storage: 1Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/mnt/some new/directory/structure/"
+    path: "/mnt/utility/mongodb/"
+    type: DirectoryOrCreate
+---
+# What do we want from storage perspective -- For personal mogo db
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-personal-pvc
+spec:
+  storageClassName: mylocalstorage-personal
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+# How do we want it to get implemented
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-storage-personal
+spec:
+  storageClassName: mylocalstorage-personal
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/personal/mongodb/"
+    type: DirectoryOrCreate
+---
+# What do we want from storage perspective -- For investment mogo db
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-investment-pvc
+spec:
+  storageClassName: mylocalstorage-investment
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+# How do we want it to get implemented
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-storage-investment 
+spec:
+  storageClassName: mylocalstorage-investment
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/investment/mongodb/"
     type: DirectoryOrCreate

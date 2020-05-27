@@ -1,7 +1,7 @@
-# To enable actuator endpoint responsible for restarting the application context
-management:
-  endpoint:
-    restart:
+# To enable actuator endpoint responsible for restarting the application
+management: 
+  endpoint: 
+    restart: 
       enabled: true
   endpoints:
     web:
@@ -15,3 +15,6 @@ spring:
       reload: 
         enabled: true
         strategy: RESTART_CONTEXT
+  devtools: 
+    remote: 
+      secret: That's a secret

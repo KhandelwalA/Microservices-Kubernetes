@@ -15,13 +15,13 @@ spec:
     spec:
       containers:
         - name: utility-container
-          image: utility:v1
+          image: khandelwala/utility-minikube:v4
           ports:
             - containerPort: 8080
           envFrom:
             - configMapRef: 
                 name: utility-configmap-v1
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       name: utility
@@ -51,8 +51,126 @@ spec:
         - name: mongo-persistent-storage  #Should match with volumeMounts->name
           # pointer to the configuration of HOW we want the mount to be implemented
           persistentVolumeClaim:
-            claimName: mongo-pvc
+            claimName: mongo-utility-pvc
   replicas: 1
   selector:
     matchLabels:
       name: mongo-utility
+---
+# Deployment definition of personal service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: personal-deployment
+  labels:
+    name: personal-deployment
+    type: microservice
+spec:
+  template:
+    metadata:
+      name: personal
+      labels:
+        name: personal
+    spec:
+      containers:
+        - name: personal-container
+          image: khandelwala/personal-minikube:v4
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef: 
+                name: personal-configmap-v1
+  replicas: 1
+  selector:
+    matchLabels:
+      name: personal
+---
+# Deployment definition of mongodb for utility service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-personal-deployment
+  labels:
+    name: mongo-personal-deployment
+    type: database
+spec:
+  template:
+    metadata:
+      name: mongo-personal
+      labels:
+        name: mongo-personal
+    spec:
+      containers:
+        - name: mongo-container
+          image: mongo:3.6
+          volumeMounts:
+            - name: mongo-persistent-storage
+              mountPath: /data/db
+      volumes:
+        - name: mongo-persistent-storage  #Should match with volumeMounts->name
+          # pointer to the configuration of HOW we want the mount to be implemented
+          persistentVolumeClaim:
+            claimName: mongo-personal-pvc
+  replicas: 1
+  selector:
+    matchLabels:
+      name: mongo-personal
+---
+# Deployment definition of investment service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: investment-deployment
+  labels:
+    name: investment-deployment
+    type: microservice
+spec:
+  template:
+    metadata:
+      name: investment
+      labels:
+        name: investment
+    spec:
+      containers:
+        - name: investment-container
+          image: khandelwala/investment-minikube:v4
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef: 
+                name: investment-configmap-v1
+  replicas: 1
+  selector:
+    matchLabels:
+      name: investment
+---
+# Deployment definition of mongodb for utility service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-investment-deployment
+  labels:
+    name: mongo-investment-deployment
+    type: database
+spec:
+  template:
+    metadata:
+      name: mongo-investment
+      labels:
+        name: mongo-investment
+    spec:
+      containers:
+        - name: mongo-container
+          image: mongo:3.6
+          volumeMounts:
+            - name: mongo-persistent-storage
+              mountPath: /data/db
+      volumes:
+        - name: mongo-persistent-storage  #Should match with volumeMounts->name
+          # pointer to the configuration of HOW we want the mount to be implemented
+          persistentVolumeClaim:
+            claimName: mongo-investment-pvc
+  replicas: 1
+  selector:
+    matchLabels:
+      name: mongo-investment
