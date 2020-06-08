@@ -1,3 +1,29 @@
+# Deployment definition of api gateway
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway-deployment
+  labels:
+    name: api-gateway-deployment
+    type: api-gateway
+spec:
+  template:
+    metadata:
+      name: api-gateway
+      labels:
+        name: api-gateway
+    spec:
+      containers:
+        - name: api-gateway-container
+          image: khandelwala/api-gateway-minikube:v1
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+  replicas: 1
+  selector:
+    matchLabels:
+      name: api-gateway
+---
 # Deployment definition of utility service
 apiVersion: apps/v1
 kind: Deployment
@@ -15,9 +41,10 @@ spec:
     spec:
       containers:
         - name: utility-container
-          image: khandelwala/utility-minikube:v4
+          image: khandelwala/utility-minikube:v1
           ports:
             - containerPort: 8080
+          imagePullPolicy: Always
           envFrom:
             - configMapRef: 
                 name: utility-configmap-v1
@@ -74,9 +101,10 @@ spec:
     spec:
       containers:
         - name: personal-container
-          image: khandelwala/personal-minikube:v4
+          image: khandelwala/personal-minikube:v1
           ports:
             - containerPort: 8080
+          imagePullPolicy: Always
           envFrom:
             - configMapRef: 
                 name: personal-configmap-v1
@@ -133,9 +161,10 @@ spec:
     spec:
       containers:
         - name: investment-container
-          image: khandelwala/investment-minikube:v4
+          image: khandelwala/investment-minikube:v1
           ports:
             - containerPort: 8080
+          imagePullPolicy: Always
           envFrom:
             - configMapRef: 
                 name: investment-configmap-v1

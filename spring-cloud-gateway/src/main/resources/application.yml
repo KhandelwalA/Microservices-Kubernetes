@@ -1,0 +1,18 @@
+# To enable actuator endpoint responsible for restarting the application
+management: 
+  endpoint: 
+    restart: 
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          url-expression: "'http://'+serviceId+':'+getPort()"
+          lower-case-service-id: true

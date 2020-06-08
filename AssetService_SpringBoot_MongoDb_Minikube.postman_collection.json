@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "http://192.168.1.20:30081/personal/addPersonalAsset",
+			"name": "http://192.168.1.27:30080/personal-service/personal/addPersonalAsset",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -40,7 +40,7 @@
 			"response": []
 		},
 		{
-			"name": "http://192.168.1.20:30080/utility/addUtilityAsset",
+			"name": "http://192.168.1.27:30080/utility-service/utility/addUtilityAsset",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -73,7 +73,7 @@
 			"response": []
 		},
 		{
-			"name": "http://192.168.1.20:30080/utility/getAllUtilityAsset",
+			"name": "http://192.168.1.27:30080/utility-service/utility/getAllUtilityAsset",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -101,7 +101,7 @@
 			"response": []
 		},
 		{
-			"name": "http://192.168.1.20:30082/investment/addInvestmentAsset",
+			"name": "http://192.168.1.27:30080/investment-service/investment/addInvestmentAsset",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -133,7 +133,7 @@
 			"response": []
 		},
 		{
-			"name": "http://192.168.1.20:30082/investment/getAllInvestmentAsset",
+			"name": "http://192.168.1.27:30080/investment-service/investment/getAllInvestmentAsset",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -158,7 +158,7 @@
 			"response": []
 		},
 		{
-			"name": "http://192.168.1.20:30082/investment/getInvestmentAssetByNameAndtype",
+			"name": "http://192.168.1.27:30080/investment-service/investment/getInvestmentAssetByNameAndtype",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -187,7 +187,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:9193/investment/getInvestmentAssetByNameAndtype",
+			"name": "http://192.168.1.27:30080/investment-service/investment/getInvestmentAssetByNameAndtype",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -216,7 +216,7 @@
 			"response": []
 		},
 		{
-			"name": "http://192.168.1.20:30082/investment/getInvestmentAssetByNameAndtype",
+			"name": "http://192.168.1.27:30080/investment-service/investment/getInvestmentAssetByNameAndtype",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -245,9 +245,12 @@
 			"response": []
 		},
 		{
-			"name": "http://192.168.1.20:30080/utility/addUtilityAsset",
+			"name": "http://192.168.1.27:30080/utility-service/utility/getAllUtilityAsset",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [
 					{
 						"key": "Conte",
@@ -260,18 +263,22 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"assetNumber\": \"12345678\",\n    \"assetName\": \"BSLF\",\n    \"assetType\": \"Mutual Fund\",\n    \"assetAddress\":{\n    \t\"physicalAddress\": [\"H.NO 20\", \"Street no 120\", \"Patel Nagar\", \"New Delhi\", \"Delhi\", \"110008\"], \n    \t\"websiteURL\":\"www.bslf.com\"\n    },\n    \"assetContactInformation\":[{\"type\":\"mobile\",\"number\":\"1234567898\"},{\"type\":\"landline\",\"number\":\"9876543212\"}],\n    \"assetCredentials\":{\n    \t\"loginId\":\"kk.kk\",\n    \t\"password\":\"sdsd\",\n    \t\"phonePassword\":\"sdsd\"\n    },\n    \"assetSecurityInformation\":[{\"securityQuestions\":\"question1\",\"securityAnswer\":\"weee\"},{\"securityQuestions\":\"question2\",\"securityAnswer\":\"Are\"},{\"securityQuestions\":\"question3\",\"securityAnswer\":\"good\"}],\n    \"areaReference\":\"\",\n    \"zoneCode\":\"\",\n    \"mrNumber\":\"\",\n    \"meterNumber\":\"\",\n    \"wcNumber\":\"\",\n    \"licenseNumber\":\"\"\n  }"
+					"raw": "{\n    \"assetNumber\": \"123456789\",\n    \"assetName\": \"BSLF\",\n    \"assetType\": \"Mutual Fund\",\n    \"assetAddress\":{\n    \t\"physicalAddress\": [\"H.NO 20\", \"Street no 120\", \"Patel Nagar\", \"New Delhi\", \"Delhi\", \"110008\"], \n    \t\"websiteURL\":\"www.bslf.com\"\n    },\n    \"assetContactInformation\":[{\"type\":\"mobile\",\"number\":\"1234567898\"},{\"type\":\"landline\",\"number\":\"9876543212\"}],\n    \"assetCredentials\":{\n    \t\"loginId\":\"kk.kk\",\n    \t\"password\":\"sdsd\",\n    \t\"phonePassword\":\"sdsd\"\n    },\n    \"assetSecurityInformation\":[{\"securityQuestions\":\"question1\",\"securityAnswer\":\"weee\"},{\"securityQuestions\":\"question2\",\"securityAnswer\":\"Are\"},{\"securityQuestions\":\"question3\",\"securityAnswer\":\"good\"}],\n    \"areaReference\":\"\",\n    \"zoneCode\":\"\",\n    \"mrNumber\":\"\",\n    \"meterNumber\":\"\",\n    \"wcNumber\":\"\",\n    \"licenseNumber\":\"\"\n  }"
 				},
 				"url": {
-					"raw": "http://localhost:9191/utility/addUtilityAsset",
+					"raw": "http://192.168.1.27:30080/utility-service/utility/getAllUtilityAsset",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"192",
+						"168",
+						"1",
+						"27"
 					],
-					"port": "9191",
+					"port": "30080",
 					"path": [
+						"utility-service",
 						"utility",
-						"addUtilityAsset"
+						"getAllUtilityAsset"
 					]
 				}
 			},
